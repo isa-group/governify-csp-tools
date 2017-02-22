@@ -1,0 +1,7 @@
+production:
+  loglevel: info
+  logfile: '../logs'
+
+development:
+  loglevel: debug
+  logfile: '../logs'

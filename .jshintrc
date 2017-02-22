@@ -1,0 +1,33 @@
+{
+    "bitwise": true,
+    "browser": true,
+    "camelcase": false,
+    "curly": false,
+    "loopfunc": true,
+    "eqeqeq": false,
+    "immed": true,
+    "jquery": true,
+    "latedef": false,
+    "newcap": false,
+    "noarg": true,
+    "node": true,
+    "regexp": true,
+    "smarttabs": true,
+    "strict": true,
+    "trailing": true,
+    "undef": true,
+    "unused": false,
+    "esversion": 6,
+    "validthis": true,
+    "eqnull": true,
+    "sub": true,
+
+    "globals": {
+        "module": true,
+        "describe": true,
+        "it": true,
+        "before": true,
+        "after": true,
+        "expect": true
+    }
+}

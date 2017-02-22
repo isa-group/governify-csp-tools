@@ -1,0 +1,5 @@
+type: "object"
+properties:
+  remote:
+    type: "boolean"
+  api: "string

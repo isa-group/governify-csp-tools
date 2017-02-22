@@ -1,0 +1,56 @@
+{
+  "name": "governify-csp-tools",
+  "version": "0.0.1",
+  "description": "CSP Tools",
+  "homepage": "https://github.com/isa-group/governify-csp-tools",
+  "main": "index.js",
+  "dependencies": {
+    "bluebird": "^3.4.7",
+    "js-yaml": "^3.8.1",
+    "moment": "^2.17.1",
+    "request": "^2.79.0",
+    "winston": "^2.3.1",
+    "tslint": "^4.4.2",
+    "typescript": "^2.1.6",
+    "connect": "^3.2.0",
+    "swagger-tools": "0.10.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "grunt": "^1.0.1",
+    "grunt-banner": "^0.6.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-dockerize": "0.0.1",
+    "grunt-header": "^1.1.0",
+    "grunt-mocha-test": "^0.13.2",
+    "grunt-release-github": "1.0.4",
+    "grunt-ts": "^6.0.0-beta.11",
+    "grunt-tslint": "^4.0.0",
+    "mocha": "^3.2.0",
+    "@types/node": "^7.0.5",
+    "typescript": "^2.1.6"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "prestart": "npm install",
+    "test": "grunt test"
+  },
+  "keywords": [
+    "csp",
+    "minizinc"
+  ],
+  "author": {
+    "name": "ISA group",
+    "web": "http://www.isa.us.es/"
+  },
+  "license": "GPL-3.0+",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/isa-group/governify-agreement-analyzer.git",
+    "github": "http://github.com/isa-group/governify-agreement-analyzer"
+  },
+  "docker": {
+    "url": "https://hub.docker.com/r/darteaga/testing-grunt/"
+  }
+}
