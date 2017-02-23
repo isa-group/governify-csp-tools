@@ -52,7 +52,24 @@ var MinizincDocument = (function () {
         else {
             typeOrRange += mznVariableObject.type;
         }
-        return "var " + typeOrRange + ": " + mznVariableObject.id + ";\n";
+        var mznTypeDict = {
+            "number": "float",
+            "int32": "int",
+            "int64": "int",
+            "float": "float",
+            "double": "float",
+            "byte": "string",
+            "binary": "string",
+            "date": "string",
+            "date-time": "string",
+            "password": "string",
+            "string": "string"
+        };
+        var _type = mznTypeDict[typeOrRange];
+        if (!_type) {
+            _type = typeOrRange;
+        }
+        return "var " + _type + ": " + mznVariableObject.id + ";\n";
     };
     MinizincDocument.prototype.parameter = function (mznParameterObject) {
         var ret = "";

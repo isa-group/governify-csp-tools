@@ -17,7 +17,8 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 "use strict";
-var MinizincExecutor_1 = require("../utils/MinizincExecutor");
+var MinizincExecutor_1 = require("../tools/MinizincExecutor");
+var logger = require("../logger/logger");
 var Problem = (function () {
     function Problem(cspModel, config) {
         this.cspModel = cspModel;
@@ -30,12 +31,18 @@ var Problem = (function () {
         else if (this.config.type === "local") {
             this.getLocalSolution(callback);
         }
+        else if (this.config.type === "docker") {
+            this.getDockerSolution(callback);
+        }
         else {
-            console.error("Unable to get solution for undefined reasoner type. Please, specify reasoner.type \"api\" or \"local\"");
+            throw "Unable to get solution for undefined reasoner type. Please, specify reasoner.type \"api\" or \"local\"";
         }
     };
     Problem.prototype.getLocalSolution = function (callback) {
         new MinizincExecutor_1.default(this).execute(callback);
+    };
+    Problem.prototype.getDockerSolution = function (callback) {
+        new MinizincExecutor_1.default(this, "docker").execute(callback);
     };
     Problem.prototype.getRemoteSolution = function (callback) {
         require("request")({
@@ -46,12 +53,7 @@ var Problem = (function () {
                     content: require("js-yaml").safeDump(this.cspModel)
                 }]
         }, function (error, res, body) {
-            if (!error && res.statusCode === 200) {
-                callback(body);
-            }
-            else {
-                callback(error);
-            }
+            callback(error, body);
         });
     };
     return Problem;

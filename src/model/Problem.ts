@@ -19,7 +19,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 
 import MinizincDocument from "../builder/MinizincDocument";
-import MinizincExecutor from "../utils/MinizincExecutor";
+import MinizincExecutor from "../tools/MinizincExecutor";
+
+const logger = require("../logger/logger");
 
 export default class Problem {
 
@@ -36,8 +38,10 @@ export default class Problem {
             this.getRemoteSolution(callback);
         } else if (this.config.type === "local") {
             this.getLocalSolution(callback);
+        } else if (this.config.type === "docker") {
+            this.getDockerSolution(callback);
         } else {
-            console.error("Unable to get solution for undefined reasoner type. Please, specify reasoner.type \"api\" or \"local\"");
+            throw "Unable to get solution for undefined reasoner type. Please, specify reasoner.type \"api\" or \"local\"";
         }
     }
 
@@ -45,7 +49,11 @@ export default class Problem {
         new MinizincExecutor(this).execute(callback);
     }
 
-    private getRemoteSolution(callback: (resp: any) => void) {
+    private getDockerSolution(callback: () => void) {
+        new MinizincExecutor(this, "docker").execute(callback);
+    }
+
+    private getRemoteSolution(callback: (sol: any, resp: any) => void) {
         require("request")({
             url: this.config.api.server + "/api/" + this.config.api.version + "/" + this.config.api.operationPath,
             method: "POST",
@@ -54,11 +62,7 @@ export default class Problem {
                 content: require("js-yaml").safeDump(this.cspModel)
             }]
         }, (error, res, body) => {
-            if (!error && res.statusCode === 200) {
-                callback(body);
-            } else {
-                callback(error);
-            }
+            callback(error, body);
         });
     }
 

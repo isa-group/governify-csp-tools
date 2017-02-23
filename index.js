@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.0.1, built on: 2017-02-21
+governify-csp-tools 0.0.1, built on: 2017-02-22
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -18,6 +18,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 "use strict";
 var Reasoner_1 = require("./src/model/Reasoner");
-module.exports = function (config) {
-    return new Reasoner_1.default(config);
+module.exports = {
+    Reasoner: Reasoner_1.default
 };

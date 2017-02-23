@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.0.1, built on: 2017-02-21
+governify-csp-tools 0.0.1, built on: 2017-02-22
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -20,6 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 import Reasoner from "./src/model/Reasoner";
 
-module.exports = function (config: any) {
-    return new Reasoner(config);
+module.exports = {
+    Reasoner: Reasoner
 };

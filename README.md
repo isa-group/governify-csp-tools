@@ -74,7 +74,7 @@ properties:
           type: string
   goals:
     type: array
-```###### Latest release
+```####### Latest release
 
 The version 0.0.1 is the latest stable version of governify-csp-tools component.
 see [release note](http://github.com/isa-group/governify-agreement-analyzer/releases/tag/0.0.1) for details.

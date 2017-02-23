@@ -58,7 +58,7 @@ module.exports = function (grunt) {
                     replace: true
                 },
                 files: {
-                    src: ['src/**/*.ts', 'tests/**/*.ts', 'Gruntfile.js'] //If you want to inspect more file, you change this.
+                    src: ['src/**/*.ts', 'tests/**/*.ts', 'Gruntfile.js', 'index.ts'] //If you want to inspect more file, you change this.
                 }
             },
             readme: {

@@ -23,15 +23,20 @@ import Problem from "../model/Problem";
 
 const fs = require("fs");
 const Promise = require("bluebird");
+const logger = require("../logger/logger");
 
 export default class MinizincExecutor {
 
     mznObject: any;
     config: any;
+    option: string;
 
-    constructor(problem: Problem) {
+    constructor(problem: Problem, option?: string) {
         this.mznObject = problem.cspModel;
         this.config = problem.config;
+        if (option) {
+            this.option = option;
+        }
     }
 
     execute(callback: () => void) {
@@ -55,19 +60,18 @@ export default class MinizincExecutor {
 
                 // Create MiniZinc files
                 var fileName = "problem_" + date.getTime() + "_" + index + "_" + random;
-                fs.rmdir("./data/" + _this.config.folder, function () {
-                    fs.mkdir("./data", function () {
-                        fs.mkdir("./data/" + _this.config.folder, function () {
-                            fs.writeFile("./data/" + _this.config.folder + "/" + fileName + ".mzn", mznDocumentToSolve, function (err: any) {
-                                if (err) {
-                                    reject(err);
-                                } else {
-                                    resolve({
-                                        goal: goal,
-                                        fileName: fileName
-                                    });
-                                }
-                            });
+
+                fs.mkdir("./data", function () {
+                    fs.mkdir("./data/" + _this.config.folder, function () {
+                        fs.writeFile("./data/" + _this.config.folder + "/" + fileName + ".mzn", mznDocumentToSolve, function (err: any) {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve({
+                                    goal: goal,
+                                    fileName: fileName
+                                });
+                            }
                         });
                     });
                 });
@@ -78,6 +82,29 @@ export default class MinizincExecutor {
 
     }
 
+    private deleteFolderRecursive(path: string) {
+        logger.info("Deleting... " + path);
+        if (fs.existsSync(path)) {
+            try {
+                if (fs.lstatSync(path).isDirectory()) {
+                    fs.readdirSync(path).forEach(function (file: string, index: number) {
+                        var curPath = path + "/" + file;
+                        if (fs.lstatSync(curPath).isDirectory()) { // recurse
+                            this.deleteFolderRecursive(curPath);
+                        } else { // delete file
+                            fs.unlinkSync(curPath);
+                        }
+                    });
+                    fs.rmdirSync(path);
+                } else if (fs.lstatSync(path).isFile()) {
+                    fs.unlinkSync(path);
+                }
+            } catch (err) {
+                logger.warning(err);
+            }
+        }
+    };
+
     /**
      * Execute Minizinc files
      */
@@ -87,7 +114,11 @@ export default class MinizincExecutor {
         Promise.all(promises).then(function (goalObjs: any) {
 
             // Get MiniZinc bash command
-            let bashCmd = _this.getMinizincCmd(goalObjs);
+            var bashCmd = _this.getMinizincCmd(goalObjs);
+            if (_this.option === "docker") {
+                let rootPath = process.cwd().replace(/\\[A-Za-z0-9]+\.[A-Za-z0-9]+$/, "");
+                bashCmd = "docker run --rm -t -v " + rootPath + ":/home -w /home isagroup/minizinc bash -c \"" + bashCmd + "\"";
+            }
 
             // MiniZinc execution
             require("child_process").exec(bashCmd, (error, stdout, stderr) => {
@@ -120,7 +151,7 @@ export default class MinizincExecutor {
 
             let mzn2fznCmd = "mzn2fzn ./data/" + _this.config.folder + "/" + goalObj.fileName + ".mzn";
             let fznGecodeCmd = "fzn-gecode ./data/" + _this.config.folder + "/" + goalObj.fileName + ".fzn";
-            let oznCmd = "solns2out --search-complete-msg \"\" ./data/" + _this.config.folder + "/" + goalObj.fileName + ".ozn";
+            let oznCmd = "solns2out --search-complete-msg '' ./data/" + _this.config.folder + "/" + goalObj.fileName + ".ozn";
 
             let grepFilterBlankLines = "grep -v \"^$\"";
 
