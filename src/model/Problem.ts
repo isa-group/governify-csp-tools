@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.0.1, built on: 2017-02-22
+governify-csp-tools 0.0.0, built on: 2017-02-22
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
