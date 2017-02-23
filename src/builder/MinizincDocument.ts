@@ -64,33 +64,30 @@ export default class MinizincDocument {
      */
     private var(mznVariableObject: any) {
         var typeOrRange = "";
-
+        
         if ("range" in mznVariableObject) {
             typeOrRange += mznVariableObject.range.min + ".." + mznVariableObject.range.max;
         } else {
             typeOrRange += mznVariableObject.type;
+            let mznTypeDict = {
+                "number": "float",
+                "int32": "int",
+                "int64": "int",
+                "float": "float",
+                "double": "float",
+                "byte": "string",
+                "binary": "string",
+                "date": "string",
+                "date-time": "string",
+                "password": "string",
+                "string": "string"
+            };
+            if (typeOrRange in mznTypeDict) {
+                typeOrRange = mznTypeDict[typeOrRange];
+            }
         }
-
-        let mznTypeDict = {
-            "number": "float",
-            "int32": "int",
-            "int64": "int",
-            "float": "float",
-            "double": "float",
-            "byte": "string",
-            "binary": "string",
-            "date": "string",
-            "date-time": "string",
-            "password": "string",
-            "string": "string"
-        };
-
-        let _type = mznTypeDict[typeOrRange];
-        if (!_type) {
-            _type = typeOrRange;
-        }
-
-        return "var " + _type + ": " + mznVariableObject.id + ";\n";
+        
+        return "var " + typeOrRange + ": " + mznVariableObject.id + ";\n";
     }
 
     /**
