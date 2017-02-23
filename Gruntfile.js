@@ -98,14 +98,14 @@ module.exports = function (grunt) {
 
         //Make a new release on github
         //"grunt release" for pacth version
-        //"grunt release:minior" for minior version
+        //"grunt release:minor" for minor version
         //"grunt release:major" for major version
         release: {
             options: {
                 changelog: true, //NOT CHANGE
                 changelogFromGithub: true, //NOT CHANGE
                 githubReleaseBody: 'See [CHANGELOG.md](./CHANGELOG.md) for details.', //NOT CHANGE
-                npm: false, //CHANGE TO TRUE IF YOUR PROJECT IS A NPM MODULE 
+                npm: true, //CHANGE TO TRUE IF YOUR PROJECT IS A NPM MODULE 
                 //npmtag: true, //default: no tag
                 beforeBump: [], // IS NOT READY YET
                 afterBump: [], // IS NOT READY YET
@@ -113,7 +113,7 @@ module.exports = function (grunt) {
                 afterRelease: [], // IS NOT READY YET
                 updateVars: ['pkg'], //NOT CHANGE
                 github: {
-                    repo: "isa-group/project-template-nodejs",
+                    repo: "isa-group/governify-csp-tools",
                     accessTokenVar: "GITHUB_ACCESS_TOKEN", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                     usernameVar: "GITHUB_USERNAME" //SET ENVIRONMENT VARIABLE WITH THIS NAME
                 }

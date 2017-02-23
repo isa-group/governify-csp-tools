@@ -1,6 +1,6 @@
 {
   "name": "governify-csp-tools",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Governify CSP Tools",
   "homepage": "https://github.com/isa-group/governify-csp-tools",
   "main": "index.js",
@@ -47,10 +47,10 @@
   "license": "GPL-3.0+",
   "repository": {
     "type": "git",
-    "url": "git://github.com/isa-group/governify-agreement-analyzer.git",
-    "github": "http://github.com/isa-group/governify-agreement-analyzer"
+    "url": "git://github.com/isa-group/governify-csp-tools.git",
+    "github": "http://github.com/isa-group/governify-csp-tools"
   },
   "docker": {
-    "url": "https://hub.docker.com/r/darteaga/testing-grunt/"
+    "url": "<docker-hub-image-url>"
   }
 }
