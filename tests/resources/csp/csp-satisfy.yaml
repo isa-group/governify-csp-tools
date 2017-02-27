@@ -1,0 +1,38 @@
+variables:
+  - id: invoicePenalty
+    range: 
+      min: 0
+      max: 10
+  - id: invoiceReward
+    range: 
+      min: 0
+      max: 10
+  - id: feePenalty
+    range: 
+      min: 0
+      max: 10
+  - id: feeReward
+    range: 
+      min: 0
+      max: 10
+  - id: daysBeforeMeetingDay
+    range: 
+      min: 0
+      max: 10
+  - id: resolutionHours
+    range: 
+      min: 0
+      max: 10
+  - id: maxResolutionDays
+    range: 
+      min: 0
+      max: 10
+  - id: elapseDaysUntilDelivery
+    range: 
+      min: 0
+      max: 10
+constraints:
+  - id: GNWT_RESOLUTION_WITH_SEVERITY_CODE_1_0
+    expression: resolutionHours <= 4
+goals:
+  - satisfy

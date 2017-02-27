@@ -1,7 +1,7 @@
 # Governify CSP Tools
 This is a Node.js module created to provide **Constraint Satisfaction Problems** (CSP) tools
 for others Node.js applications. You can require the module by using
-`require(governify-csp-tools)`. By now, the only tool available is [Reasoner](#Reasoner).
+`require(governify-csp-tools)`. For now, the only tool available is [Reasoner](#Reasoner).
 
 This module follows the `project-template-nodejs` guidelines.
 
@@ -48,7 +48,7 @@ cspReasonerTool.solve(model, (error, sol) => {
 The problem must be modeled over [CSP model schema](#csp-model-schema).
 
 ## CSP model schema
-This schema has been created to describe CSP problem on YAML. By now, it allows you
+This schema has been created to describe CSP problem on YAML. For now, it allows you
 to define:
 
 - Parameters.
@@ -56,7 +56,7 @@ to define:
 - Constraints.
 - Goals.
 
-The schema is:
+The JSON schema related to CSP model is:
 
 ```yaml
 ---
@@ -136,6 +136,7 @@ required:
 ```
 
 An example for this JSON schema could be:
+
 ```yaml
 variables:
   - id: ImageTranslation
@@ -162,11 +163,11 @@ goals:
 ```
 
 ## Reasoner
-This tool is able to execute problem described on CSP YAML schema.
+This tool is able to execute problem described on CSP YAML schema. 
+The Reasoner can be configured to run in three different environments:
+local, remote and docker.
 
-The Reasoner can be configured to run in three different ways: local, remote and docker.
-
-Please, follow the reasoner configuration file schema:
+Please, follow this schema below to set your Reasoner configuration file:
 
 ```yaml
 ---
@@ -189,38 +190,47 @@ properties:
         type: 'string'
       operationPath:
         type: 'string'
+required:
+  - 'type'
+  - 'folder'
 
 ```
 
-Follow the examples configuration to set your Reasoner.
+Check some Reasoner configuration examples.
 
-### Local configuration
+### Example of `local` configuration
 You need to set `type: 'local'` on Reasoner YAML configuration file.
 
 ```yaml
-reasoner:
-  type: 'local'
-  folder: 'csp_files_local'
+type: 'local'
+folder: 'csp_files_local'
 ```
 
-#### Remote configuration
+### Example of `remote` configuration
 You need to set `type: 'api'` on Reasoner YAML configuration file.
 
 ```yaml
-reasoner:
-  type: 'api'
-  api:
-    version: 'v2'
-    server: 'https://localhost:10044/module-minizinc'
-    operationPath: 'models/mzn/operations/execute'
-  folder: 'csp_files_remote'
+type: 'api'
+api:
+  version: 'v2'
+  server: 'https://localhost:10044/module-minizinc'
+  operationPath: 'models/mzn/operations/execute'
+folder: 'csp_files_remote'
 ```
 
-#### Docker configuration
+### Example of `docker` configuration
 You need to have docker installed on the machine you are requiring `governify-csp-tools`, e.g:
 
 ```yaml
-reasoner:
-  type: 'docker'
-  folder: 'csp_files_docker'
+type: 'docker'
+folder: 'csp_files_docker'
 ```
+
+#### Latest release
+
+The version 0.0.0 is the latest stable version of governify-csp-tools component.
+see [release note](http://github.com/isa-group/governify-csp-tools/releases/tag/0.0.0) for details.
+
+For running:
+
+- Download latest version from [0.0.0](http://github.com/isa-group/governify-csp-tools/releases/tag/0.0.0)

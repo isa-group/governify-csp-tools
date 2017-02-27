@@ -93,6 +93,16 @@ module.exports = function (grunt) {
                     noFail: false // Optionally set to not fail on failed tests (will still fail on other errors)
                 },
                 src: ['tests/**/*.js']
+            },
+            docker: {
+                options: {
+                    reporter: 'spec',
+                    //captureFile: 'test.results<%= grunt.template.today("yyyy-mm-dd:HH:mm:ss") %>.txt', // Optionally capture the reporter output to a file
+                    quiet: false, // Optionally suppress output to standard out (defaults to false)
+                    clearRequireCache: false, // Optionally clear the require cache before running tests (defaults to false)
+                    noFail: false // Optionally set to not fail on failed tests (will still fail on other errors)
+                },
+                src: ['tests/docker/**/*.js']
             }
         },
 
@@ -105,15 +115,11 @@ module.exports = function (grunt) {
                 changelog: true, //NOT CHANGE
                 changelogFromGithub: true, //NOT CHANGE
                 githubReleaseBody: 'See [CHANGELOG.md](./CHANGELOG.md) for details.', //NOT CHANGE
-                npm: true, //CHANGE TO TRUE IF YOUR PROJECT IS A NPM MODULE 
+                npm: false, //CHANGE TO TRUE IF YOUR PROJECT IS A NPM MODULE 
                 //npmtag: true, //default: no tag
-                beforeBump: [], // IS NOT READY YET
-                afterBump: [], // IS NOT READY YET
-                beforeRelease: [], // IS NOT READY YET
-                afterRelease: [], // IS NOT READY YET
                 updateVars: ['pkg'], //NOT CHANGE
                 github: {
-                    repo: "isa-group/governify-csp-tools",
+                    repo: "isa-group/governify-csp-tools", //SET WITH YOUR PROJECT ID
                     accessTokenVar: "GITHUB_ACCESS_TOKEN", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                     usernameVar: "GITHUB_USERNAME" //SET ENVIRONMENT VARIABLE WITH THIS NAME
                 }
