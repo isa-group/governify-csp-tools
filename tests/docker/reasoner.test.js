@@ -11,7 +11,7 @@ const Reasoner = require("../../src/model/Reasoner").default;
  */
 describe('Reasoner', function () {
 
-    this.timeout(10000);
+    this.timeout(600000);
 
     it('docker', (done) => {
         fs.readFile("./tests/resources/csp/csp-satisfy.yaml", "utf8", function (err, cspModel) {
