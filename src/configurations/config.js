@@ -60,4 +60,3 @@ function _addConfiguration(uri, encoding) {
  * Setup default config location
  */
 config.addConfiguration('./src/configurations/config.yaml', 'utf8');
-config.addConfiguration('./src/configurations/reasoner.yaml', 'utf8');
