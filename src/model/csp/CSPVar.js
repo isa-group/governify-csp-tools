@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.0.0, built on: 2017-02-24
+governify-csp-tools 0.0.1, built on: 2017-03-07
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -16,10 +16,19 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
-
-
-import Reasoner from "./src/model/Reasoner";
-
-module.exports = {
-    Reasoner: Reasoner
-};
+"use strict";
+class CSPVar {
+    constructor(id, valueOrRange) {
+        this.id = id;
+        if (typeof valueOrRange === "object") {
+            this.range = valueOrRange;
+        }
+        else {
+            valueOrRange = (valueOrRange.toLowerCase() === "integer") ? "int" :
+                (valueOrRange.toLowerCase() === "double") ? "float" : valueOrRange;
+            this.type = valueOrRange;
+        }
+    }
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = CSPVar;

@@ -34,5 +34,4 @@ variables:
 constraints:
   - id: GNWT_RESOLUTION_WITH_SEVERITY_CODE_1_0
     expression: resolutionHours <= 4
-goals:
-  - satisfy
+goal: satisfy

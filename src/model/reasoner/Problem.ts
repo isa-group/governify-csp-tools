@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.0.0, built on: 2017-02-24
+governify-csp-tools 0.0.1, built on: 2017-03-07
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -18,18 +18,18 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 
-import MinizincDocument from "../builder/MinizincDocument";
-import MinizincExecutor from "../tools/MinizincExecutor";
+import MinizincExecutor from "../../tools/MinizincExecutor";
+import CSPModel from "../csp/CSPModel";
 
-const logger = require("../logger/logger");
+const logger = require("../../logger/logger");
 
 export default class Problem {
 
-    cspModel: any;
+    model: CSPModel;
     config: any;
 
-    constructor(cspModel: any, config: any) {
-        this.cspModel = cspModel;
+    constructor(model: CSPModel, config: any) {
+        this.model = model;
         this.config = config;
     }
 
@@ -59,7 +59,7 @@ export default class Problem {
             method: "POST",
             json: [{
                 fileUri: "",
-                content: require("js-yaml").safeDump(this.cspModel)
+                content: require("js-yaml").safeDump(this.model)
             }]
         }, (error, res, body) => {
             callback(error, body);

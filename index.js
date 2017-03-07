@@ -1,23 +1,31 @@
-/*!
-governify-csp-tools 0.0.0, built on: 2017-02-24
-Copyright (C) 2017 ISA group
-http://www.isa.us.es/
-https://github.com/isa-group/governify-csp-tools
+const Reasoner = require('./src/model/reasoner/Reasoner').default;
+const CSPModelMinizincTranslator = require('./src/translator/CSPModelMinizincTranslator').default;
+const MinizincCSPModelTranslator = require('./src/translator/MinizincCSPModelTranslator').default;
+const AgreementMinizincBuilder = require('./src/builder/agreement/AgreementMinizincBuilder').default;
+const CSPConstraint = require('./src/model/csp/CSPConstraint').default;
+const CSPModel = require('./src/model/csp/CSPModel').default;
+const CSPParameter = require('./src/model/csp/CSPParameter').default;
+const CSPRange = require('./src/model/csp/CSPRange').default;
+const CSPVar = require('./src/model/csp/CSPVar').default;
+// const Builder = require('./src/model/csp/Builder').default;
+// const Executor = require('./src/model/csp/Executor').default;
 
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
-"use strict";
-var Reasoner_1 = require("./src/model/Reasoner");
 module.exports = {
-    Reasoner: Reasoner_1.default
+
+    Reasoner: Reasoner,
+
+    // Builders
+    AgreementMinizincBuilder: AgreementMinizincBuilder,
+
+    // Translators
+    CSPModelMinizincTranslator: CSPModelMinizincTranslator,
+    MinizincCSPModelTranslator: MinizincCSPModelTranslator,
+
+    // CSP model
+    CSPModel: CSPModel,
+    CSPConstraint: CSPConstraint,
+    CSPParameter: CSPParameter,
+    CSPRange: CSPRange,
+    CSPVar: CSPVar
+
 };

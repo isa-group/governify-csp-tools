@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.0.0, built on: 2017-02-24
+governify-csp-tools 0.0.1, built on: 2017-03-07
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -17,26 +17,27 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 "use strict";
-var Problem_1 = require("../model/Problem");
-var Reasoner = (function () {
-    function Reasoner(config) {
-        this._config = config;
+class CSPModel {
+    constructor() {
+        this.parameters = [];
+        this.variables = [];
+        this.constraints = [];
+        this.goal = "";
     }
-    Object.defineProperty(Reasoner.prototype, "config", {
-        get: function () {
-            return this._config;
-        },
-        set: function (config) {
-            this._config = config;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Reasoner.prototype.solve = function (cspModel, callback) {
-        var problem = new Problem_1.default(cspModel, this.config);
-        problem.getSolution(callback);
-    };
-    return Reasoner;
-}());
+    addParameter(param) {
+        if (!this.existParam(param)) {
+            this.parameters.push(param);
+        }
+    }
+    existParam(param) {
+        var exists = false;
+        this.parameters.forEach(function (p) {
+            if (!exists && p.id === param.id && p.type === param.type && p.value === param.value) {
+                exists = true;
+            }
+        });
+        return exists;
+    }
+}
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.default = Reasoner;
+exports.default = CSPModel;

@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.0.0, built on: 2017-02-24
+governify-csp-tools 0.0.1, built on: 2017-03-07
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -17,118 +17,106 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 "use strict";
-var MinizincDocument_1 = require("../builder/MinizincDocument");
-var fs = require("fs");
+const CSPModelMinizincTranslator_1 = require("../translator/CSPModelMinizincTranslator");
+const fs = require("fs");
+const logger = require("../logger/logger");
+const globalConfig = require("../configurations/config");
 var Promise = require("bluebird");
-var logger = require("../logger/logger");
-var MinizincExecutor = (function () {
-    function MinizincExecutor(problem, option) {
-        this.mznObject = problem.cspModel;
+class MinizincExecutor {
+    constructor(problem, option) {
+        if (typeof problem.model === "object") {
+            this.mznDocument = new CSPModelMinizincTranslator_1.default(problem.model).translate();
+        }
+        else {
+            this.mznDocument = problem.model;
+        }
         this.config = problem.config;
         if (option) {
             this.option = option;
         }
     }
-    MinizincExecutor.prototype.execute = function (callback) {
-        var promises = this.createMinizincFiles();
-        return this.executeMinizincFiles(promises, callback);
-    };
-    MinizincExecutor.prototype.createMinizincFiles = function () {
-        var promisesCreateFiles = [];
-        var mznDocument = new MinizincDocument_1.default(this.mznObject).translate();
-        var date = new Date();
-        var random = Math.round(Math.random() * 1000);
-        var _this = this;
-        this.mznObject.goals.forEach(function (goal, index) {
-            promisesCreateFiles.push(new Promise(function (resolve, reject) {
-                var mznDocumentToSolve = mznDocument + "\nsolve " + goal + ";";
-                var fileName = "problem_" + date.getTime() + "_" + index + "_" + random;
-                fs.mkdir("./data", function () {
-                    fs.mkdir("./data/" + _this.config.folder, function () {
-                        fs.writeFile("./data/" + _this.config.folder + "/" + fileName + ".mzn", mznDocumentToSolve, function (err) {
-                            if (err) {
-                                reject(err);
-                            }
-                            else {
-                                resolve({
-                                    goal: goal,
-                                    fileName: fileName
-                                });
-                            }
+    execute(callback) {
+        let promise = this.createMinizincFile();
+        return this.executeMinizincFiles(promise, callback);
+    }
+    createMinizincFile() {
+        const date = new Date();
+        const random = Math.round(Math.random() * 1000);
+        var prevThis = this;
+        return new Promise(function (resolve, reject) {
+            var fileName = "problem_" + date.getTime() + "_" + random;
+            let folderPath = prevThis.config.folder.startsWith("./") ? prevThis.config.folder : "./" + prevThis.config.folder;
+            fs.mkdir(folderPath, () => {
+                fs.writeFile(folderPath + "/" + fileName + ".mzn", prevThis.mznDocument, function (err) {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        resolve({
+                            fileName: fileName
                         });
-                    });
+                    }
                 });
-            }));
+            });
         });
-        return promisesCreateFiles;
-    };
-    MinizincExecutor.prototype.deleteFolderRecursive = function (path) {
-        logger.info("Deleting... " + path);
-        if (fs.existsSync(path)) {
-            try {
-                if (fs.lstatSync(path).isDirectory()) {
-                    fs.readdirSync(path).forEach(function (file, index) {
-                        var curPath = path + "/" + file;
-                        if (fs.lstatSync(curPath).isDirectory()) {
-                            this.deleteFolderRecursive(curPath);
-                        }
-                        else {
-                            fs.unlinkSync(curPath);
-                        }
-                    });
-                    fs.rmdirSync(path);
-                }
-                else if (fs.lstatSync(path).isFile()) {
-                    fs.unlinkSync(path);
-                }
-            }
-            catch (err) {
-                logger.warning(err);
-            }
-        }
-    };
-    MinizincExecutor.prototype.executeMinizincFiles = function (promises, callback) {
-        var _this = this;
-        Promise.all(promises).then(function (goalObjs) {
-            var bashCmd = _this.getMinizincCmd(goalObjs);
-            if (_this.option === "docker") {
-                var rootPath = process.cwd().replace(/\\[A-Za-z0-9]+\.[A-Za-z0-9]+$/, "");
+    }
+    executeMinizincFiles(promise, callback, options) {
+        var prevThis = this;
+        promise.then(function (goalObj) {
+            var bashCmd = prevThis.getMinizincCmd(goalObj, options);
+            if (prevThis.option === "docker") {
+                let rootPath = process.cwd().replace(/\\[A-Za-z0-9]+\.[A-Za-z0-9]+$/, "");
                 bashCmd = "docker run --rm -t -v " + rootPath + ":/home -w /home isagroup/minizinc bash -c \"" + bashCmd + "\"";
             }
-            require("child_process").exec(bashCmd, function (error, stdout, stderr) {
+            require("child_process").exec(bashCmd, (error, stdout, stderr) => {
                 var resp = stdout;
                 if (error) {
-                    resp = stderr;
+                    resp = stderr || stdout || error;
                     console.error(error);
                 }
+                if (globalConfig.executor.autoRemoveFiles) {
+                    prevThis.removeFileFromPromise(goalObj);
+                }
                 if (callback) {
-                    callback(error, resp);
+                    callback(error || stderr, resp);
                 }
             });
         });
-    };
-    MinizincExecutor.prototype.getMinizincCmd = function (goalObjs) {
-        var bashCmd = "";
-        var _this = this;
-        goalObjs.forEach(function (goalObj) {
-            if (bashCmd !== "") {
-                bashCmd += " && ";
-            }
-            var echoTitle = "echo \"" + goalObj.goal + ":\"";
-            var mzn2fznCmd = "mzn2fzn ./data/" + _this.config.folder + "/" + goalObj.fileName + ".mzn";
-            var fznGecodeCmd = "fzn-gecode ./data/" + _this.config.folder + "/" + goalObj.fileName + ".fzn";
-            var oznCmd = "solns2out --search-complete-msg '' ./data/" + _this.config.folder + "/" + goalObj.fileName + ".ozn";
-            var grepFilterBlankLines = "grep -v \"^$\"";
-            if (/^win/.test(process.platform)) {
-                bashCmd += echoTitle + " && " + mzn2fznCmd + " && " + fznGecodeCmd + " | " + oznCmd;
-            }
-            else {
-                bashCmd += echoTitle + " && " + mzn2fznCmd + " && " + fznGecodeCmd + " | " + oznCmd + " | " + grepFilterBlankLines;
-            }
+    }
+    removeFileFromPromise(promise) {
+        let folderPath = this.config.folder.startsWith("./") ? this.config.folder : "./" + this.config.folder;
+        fs.unlink(folderPath + "/" + promise.fileName + ".mzn", () => {
+            fs.unlink(folderPath + "/" + promise.fileName + ".fzn", () => {
+                fs.unlink(folderPath + "/" + promise.fileName + ".ozn", () => {
+                    return true;
+                });
+            });
         });
+    }
+    getMinizincCmd(goalObj, options) {
+        var bashCmd = "";
+        var prevThis = this;
+        if (bashCmd !== "") {
+            bashCmd += " && ";
+        }
+        var echoTitle = (options && typeof options === "object" && "addEchoGoal" in options && options["addEchoGoal"] === false) ?
+            "echo \'" + goalObj.goal + ":\''" : echoTitle = "";
+        let folderPath = prevThis.config.folder.startsWith("./") ? prevThis.config.folder : "./" + prevThis.config.folder;
+        let mzn2fznCmd = "mzn2fzn " + folderPath + "/" + goalObj.fileName + ".mzn";
+        let fznGecodeCmd = "fzn-gecode " + folderPath + "/" + goalObj.fileName + ".fzn";
+        let oznCmd = "solns2out --search-complete-msg \'\' " + folderPath + "/" + goalObj.fileName + ".ozn";
+        let grepFilterBlankLines = " | grep -v \'^$\'";
+        if (/^win/.test(process.platform)) {
+            grepFilterBlankLines = "";
+        }
+        if (echoTitle !== "") {
+            bashCmd += echoTitle + " && " + mzn2fznCmd + " && " + fznGecodeCmd + " | " + oznCmd + grepFilterBlankLines;
+        }
+        else {
+            bashCmd += mzn2fznCmd + " && " + fznGecodeCmd + " | " + oznCmd + grepFilterBlankLines;
+        }
         return bashCmd;
-    };
-    return MinizincExecutor;
-}());
+    }
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = MinizincExecutor;

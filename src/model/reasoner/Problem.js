@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.0.0, built on: 2017-02-24
+governify-csp-tools 0.0.1, built on: 2017-03-07
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -17,14 +17,14 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 "use strict";
-var MinizincExecutor_1 = require("../tools/MinizincExecutor");
-var logger = require("../logger/logger");
-var Problem = (function () {
-    function Problem(cspModel, config) {
-        this.cspModel = cspModel;
+const MinizincExecutor_1 = require("../../tools/MinizincExecutor");
+const logger = require("../../logger/logger");
+class Problem {
+    constructor(model, config) {
+        this.model = model;
         this.config = config;
     }
-    Problem.prototype.getSolution = function (callback) {
+    getSolution(callback) {
         if (this.config.type === "api") {
             this.getRemoteSolution(callback);
         }
@@ -37,26 +37,25 @@ var Problem = (function () {
         else {
             throw "Unable to get solution for undefined reasoner type. Please, specify reasoner.type \"api\" or \"local\"";
         }
-    };
-    Problem.prototype.getLocalSolution = function (callback) {
+    }
+    getLocalSolution(callback) {
         new MinizincExecutor_1.default(this).execute(callback);
-    };
-    Problem.prototype.getDockerSolution = function (callback) {
+    }
+    getDockerSolution(callback) {
         new MinizincExecutor_1.default(this, "docker").execute(callback);
-    };
-    Problem.prototype.getRemoteSolution = function (callback) {
+    }
+    getRemoteSolution(callback) {
         require("request")({
             url: this.config.api.server + "/api/" + this.config.api.version + "/" + this.config.api.operationPath,
             method: "POST",
             json: [{
                     fileUri: "",
-                    content: require("js-yaml").safeDump(this.cspModel)
+                    content: require("js-yaml").safeDump(this.model)
                 }]
-        }, function (error, res, body) {
+        }, (error, res, body) => {
             callback(error, body);
         });
-    };
-    return Problem;
-}());
+    }
+}
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = Problem;

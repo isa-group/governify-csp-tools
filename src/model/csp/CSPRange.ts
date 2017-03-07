@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.0.0, built on: 2017-02-24
+governify-csp-tools 0.0.1, built on: 2017-03-07
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -18,29 +18,14 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 
-import Problem from "../model/Problem";
+export default class CSPRange {
 
-export default class Reasoner {
+    min: Number;
+    max: Number;
 
-    private _config: any;
-
-    constructor(config: any) {
-        this._config = config;
+    constructor(min: Number, max: Number) {
+        this.min = min;
+        this.max = max;
     }
 
-    get config() {
-        return this._config;
-    }
-
-    set config(config: any) {
-        this._config = config;
-    }
-
-    /**
-     * Solve a CSP problem and return string solution
-     */
-    solve(cspModel: Object, callback: () => void) {
-        let problem: Problem = new Problem(cspModel, this.config);
-        problem.getSolution(callback);
-    }
 }

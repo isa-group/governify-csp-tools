@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.0.0, built on: 2017-02-24
+governify-csp-tools 0.0.1, built on: 2017-03-07
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -64,7 +64,7 @@ module.exports = function (grunt) {
             readme: {
                 options: {
                     position: 'bottom',
-                    banner: '### Latest release\n\n<%= latestReleaseNotes %>',
+                    banner: '## Latest release\n\n<%= latestReleaseNotes %>',
                     replace: /##\sLatest\srelease(\s||.)+/g,
                     linebreak: false
                 },
@@ -171,7 +171,7 @@ module.exports = function (grunt) {
                 }],
                 options: {
                     module: "commonjs",
-                    target: "es5",
+                    target: "es2017",
                     noImplicitAny: false,
                     sourceMap: false,
                     noLib: false,
