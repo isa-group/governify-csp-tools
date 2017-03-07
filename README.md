@@ -74,7 +74,7 @@ reasoner.solve(cspModel, (err, sol) => {
 
 You can define your CSP model by following the [CSP schema](#csp-model-schema).
 
-Reasoner can also be configured to execute on remote (api) or docker. Take a look in [reasoner configuration](#reasoner-configuration).
+Reasoner can also be configured to execute on remote (API) or docker. Take a look in [reasoner configuration](#reasoner-configuration).
 
 ## Reasoner configuration
 This tool is responsible for executing and solving a CSP. The Reasoner can be configured to run in three different environments: [local](#local-configuration), [remote](#remote-configuration) (api) and [docker](#docker-configuration).
@@ -89,21 +89,21 @@ Make sure you have these commands working before running reasoner on local.
 To set your reasoner configuration on local you need to set `type:"local"`, e.g.:
 ```json
 {
-  type: "local",
-  folder: "csp_files"
+  "type": "local",
+  "folder": "csp_files"
 }
 ```
 
 ### Remote configuration
-You need to set `type:"api"` and define `api` object on reasoner configuration, for example:
+You need to set `"type":"api"` and define `api` object on reasoner configuration, for example:
 ```json
 {
-  type: "api",
-  folder: "csp_files",
-  api: {
-    version: "v2",
-    server: "https://designer.governify.io:10044/module-minizinc",
-    operationPath: "models/csp/operations/execute"
+  "type": "api",
+  "folder": "csp_files",
+  "api": {
+    "version": "v2",
+    "server": "https://designer.governify.io:10044/module-minizinc",
+    "operationPath": "models/csp/operations/execute"
   }
 }
 ```
@@ -115,8 +115,8 @@ To use this feature, you will need to have docker installed on the machine you a
 To set your reasoner configuration on local you need to set `type:"docker"`, e.g.:
 ```json
 {
-  type: "docker"
-  folder: "csp_files"
+  "type": "docker",
+  "folder": "csp_files"
 }
 ```
 
