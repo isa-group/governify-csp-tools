@@ -232,9 +232,9 @@ required:
 
 ## Latest release
 
-The version 0.0.1 is the latest stable version of governify-csp-tools component.
-see [release note](http://github.com/isa-group/governify-csp-tools/releases/tag/0.0.1) for details.
+The version 0.1.1 is the latest stable version of governify-csp-tools component.
+see [release note](http://github.com/isa-group/governify-csp-tools/releases/tag/0.1.1) for details.
 
 For running:
 
-- Download latest version from [0.0.1](http://github.com/isa-group/governify-csp-tools/releases/tag/0.0.1)
+- Download latest version from [0.1.1](http://github.com/isa-group/governify-csp-tools/releases/tag/0.1.1)
