@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.1.1, built on: 2017-03-09
+governify-csp-tools 0.1.1, built on: 2017-03-13
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -20,6 +20,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 import CSPRange from "./CSPRange";
 
+const typeMap = require("../../configurations/config").translator.typeMap;
+
 export default class CSPVar {
 
     id: String;
@@ -31,8 +33,7 @@ export default class CSPVar {
         if (typeof valueOrRange === "object") { // CSPRange
             this.range = valueOrRange;
         } else {
-            valueOrRange = (valueOrRange.toLowerCase() === "integer") ? "int" :
-                (valueOrRange.toLowerCase() === "double") ? "float" : valueOrRange;
+            valueOrRange = valueOrRange in typeMap ? typeMap[valueOrRange]: valueOrRange;
             this.type = valueOrRange;
         }
 

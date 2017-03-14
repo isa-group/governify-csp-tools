@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.1.1, built on: 2017-03-09
+governify-csp-tools 0.1.1, built on: 2017-03-13
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -17,6 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 "use strict";
+const typeMap = require("../../configurations/config").translator.typeMap;
 class CSPVar {
     constructor(id, valueOrRange) {
         this.id = id;
@@ -24,8 +25,7 @@ class CSPVar {
             this.range = valueOrRange;
         }
         else {
-            valueOrRange = (valueOrRange.toLowerCase() === "integer") ? "int" :
-                (valueOrRange.toLowerCase() === "double") ? "float" : valueOrRange;
+            valueOrRange = valueOrRange in typeMap ? typeMap[valueOrRange] : valueOrRange;
             this.type = valueOrRange;
         }
     }
