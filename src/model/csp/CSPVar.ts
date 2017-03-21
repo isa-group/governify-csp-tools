@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.1.1, built on: 2017-03-13
+governify-csp-tools 0.1.1, built on: 2017-03-20
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -33,7 +33,7 @@ export default class CSPVar {
         if (typeof valueOrRange === "object") { // CSPRange
             this.range = valueOrRange;
         } else {
-            valueOrRange = valueOrRange in typeMap ? typeMap[valueOrRange]: valueOrRange;
+            valueOrRange = valueOrRange in typeMap ? typeMap[valueOrRange] : valueOrRange;
             this.type = valueOrRange;
         }
 

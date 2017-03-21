@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.1.1, built on: 2017-03-13
+governify-csp-tools 0.1.1, built on: 2017-03-20
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -32,7 +32,7 @@ class CSPModelMinizincTranslator {
                 });
             }
             if (this.mznObject.variables) {
-                this.mznObject.variables.forEach(function (variable) {
+                this.mznObject.variables.sort((a, b) => a.id.localeCompare(b.id)).forEach(function (variable) {
                     mznData += _pthis.var(variable);
                 });
             }
@@ -78,7 +78,8 @@ class CSPModelMinizincTranslator {
         return ret;
     }
     constraint(mznConstraintObject) {
-        return "constraint " + mznConstraintObject.expression + "; % " + mznConstraintObject.id + "-constraint\n";
+        return "constraint " + mznConstraintObject.expression.replace(/&&/g, "/\\").replace(/\|\|/g, "\\/") +
+            "; % " + mznConstraintObject.id + "-constraint\n";
     }
     goal(goal) {
         return "solve " + goal + "; % goal\n";

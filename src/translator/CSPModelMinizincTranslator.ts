@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.1.1, built on: 2017-03-13
+governify-csp-tools 0.1.1, built on: 2017-03-20
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -45,7 +45,7 @@ export default class CSPModelMinizincTranslator {
             }
             // Variables
             if (this.mznObject.variables) {
-                this.mznObject.variables.forEach(function (variable: any) {
+                this.mznObject.variables.sort((a, b) => a.id.localeCompare(b.id)).forEach(function (variable: any) {
                     mznData += _pthis.var(variable);
                 });
             }
@@ -75,6 +75,7 @@ export default class CSPModelMinizincTranslator {
         if ("range" in mznVariableObject) {
             typeOrRange += mznVariableObject.range.min + ".." + mznVariableObject.range.max;
         } else {
+            // Translate type to MiniZinc type
             typeOrRange += mznVariableObject.type;
             if (typeOrRange in mznTypeDict) {
                 typeOrRange = mznTypeDict[typeOrRange];
@@ -108,7 +109,8 @@ export default class CSPModelMinizincTranslator {
      * Translate a constraint object to a MiniZinc "constraint" statement.
      */
     private constraint(mznConstraintObject: any): string {
-        return "constraint " + mznConstraintObject.expression + "; % " + mznConstraintObject.id + "-constraint\n";
+        return "constraint " + mznConstraintObject.expression.replace(/&&/g, "/\\").replace(/\|\|/g, "\\/") +
+            "; % " + mznConstraintObject.id + "-constraint\n";
     }
 
     /**
