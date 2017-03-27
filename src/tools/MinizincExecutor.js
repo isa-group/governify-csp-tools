@@ -69,16 +69,11 @@ class MinizincExecutor {
                 bashCmd = "docker run --rm -t -v " + rootPath + ":/home -w /home isagroup/minizinc bash -c \"" + bashCmd + "\"";
             }
             require("child_process").exec(bashCmd, (error, stdout, stderr) => {
-                var resp = stdout;
-                if (error) {
-                    resp = stderr || stdout || error;
-                    console.error(error);
-                }
                 if (globalConfig.executor.autoRemoveFiles) {
                     prevThis.removeFileFromPromise(goalObj);
                 }
                 if (callback) {
-                    callback(error || stderr, resp);
+                    callback(error, stdout, stderr, prevThis.isSatisfiable(error, stdout));
                 }
             });
         });
@@ -116,6 +111,13 @@ class MinizincExecutor {
             bashCmd += mzn2fznCmd + " && " + fznGecodeCmd + " | " + oznCmd + grepFilterBlankLines;
         }
         return bashCmd;
+    }
+    isSatisfiable(err, sol) {
+        if (err) {
+            logger.info("Reasoner returned an error:", err);
+        }
+        return (typeof sol === "string" && sol.indexOf("----------") !== -1) ||
+            (typeof sol === "object" && sol.status === "OK" && sol.message.indexOf("----------") !== -1);
     }
 }
 Object.defineProperty(exports, "__esModule", { value: true });

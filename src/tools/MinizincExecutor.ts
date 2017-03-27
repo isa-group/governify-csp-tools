@@ -87,7 +87,8 @@ export default class MinizincExecutor {
     /**
      * Execute Minizinc files
      */
-    private executeMinizincFiles(promise: typeof Promise, callback: (error: any, resp: any) => void, options?: {}) {
+    private executeMinizincFiles(promise: typeof Promise,
+        callback: (error: any, stdout: string, stderr: string, isSatisfiable: boolean) => void, options?: {}) {
 
         var prevThis = this;
 
@@ -102,19 +103,15 @@ export default class MinizincExecutor {
 
             // MiniZinc execution
             require("child_process").exec(bashCmd, (error, stdout, stderr) => {
-                var resp: string = stdout;
-                if (error) {
-                    resp = stderr || stdout || error;
-                    console.error(error);
-                }
 
                 if (globalConfig.executor.autoRemoveFiles) {
                     prevThis.removeFileFromPromise(goalObj);
                 }
 
                 if (callback) {
-                    callback(error || stderr, resp);
+                    callback(error, stdout, stderr, prevThis.isSatisfiable(error, stdout));
                 }
+
             });
 
         });
@@ -167,6 +164,17 @@ export default class MinizincExecutor {
         }
 
         return bashCmd;
+    }
+
+    private isSatisfiable(err: any, sol: any): boolean {
+
+        if (err) {
+            logger.info("Reasoner returned an error:", err);
+        }
+
+        return (typeof sol === "string" && sol.indexOf("----------") !== -1) ||
+            (typeof sol === "object" && sol.status === "OK" && sol.message.indexOf("----------") !== -1);
+
     }
 
 }
