@@ -23,8 +23,8 @@ describe('Reasoner', function () {
                     type: 'docker',
                     folder: 'test_csp_files'
                 });
-                reasoner.solve(yaml.safeLoad(cspModel), function (error, sol) {
-                    expect(sol.replace(/\r/g, "")).to.be.equal('invoicePenalty = 0;\ninvoiceReward = 0;\nfeePenalty = 0;\nfeeReward = 0;\ndaysBeforeMeetingDay = 0;\nresolutionHours = 0;\nmaxResolutionDays = 0;\nelapseDaysUntilDelivery = 0;\n----------\n');
+                reasoner.solve(yaml.safeLoad(cspModel), function (error, stdout, sterr, isSatisfiable) {
+                    expect(isSatisfiable).to.be.equal(true);
                     done();
                 });
             }
