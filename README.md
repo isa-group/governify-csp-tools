@@ -175,12 +175,13 @@ properties:
           type: 'string'
         type:
           enum:
+            - 'bool'
+            - 'boolean'
             - 'double'
-            - 'enum'
             - 'float'
-            - 'int'
             - 'int32'
             - 'int64'
+            - 'integer'
             - 'number'
         value:
           type: 'string'
