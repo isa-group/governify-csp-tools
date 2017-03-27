@@ -63,7 +63,7 @@ var reasoner = new Reasoner({
 });
 
 // Solve CSP
-reasoner.solve(cspModel, (err, sol) => {
+reasoner.solve(cspModel, (err, stdout, stderr, isSatisfiable) => {
     if (err) {
         // manage error
     } else {
