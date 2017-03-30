@@ -1,3 +1,7 @@
+### v0.3.0 - 2017-21-30
+
+- [#7](https://github.com/isa-group/governify-csp-tools/issues/7) - Implement a API REST to execute CSP 
+
 ### v0.2.1 - 2017-21-27
 
 - [#6](https://github.com/isa-group/governify-csp-tools/issues/6) - Fix broken tests

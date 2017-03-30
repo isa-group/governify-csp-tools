@@ -1,6 +1,6 @@
 {
   "name": "governify-csp-tools",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Governify CSP Tools",
   "homepage": "https://github.com/isa-group/governify-csp-tools",
   "main": "index.js",
