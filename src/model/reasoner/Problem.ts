@@ -53,16 +53,18 @@ export default class Problem {
         new MinizincExecutor(this, "docker").execute(callback);
     }
 
-    private getRemoteSolution(callback: (sol: any, resp: any) => void) {
+    private getRemoteSolution(callback: (error: any, stdout?: string, stderr?: string, isSatisfiable?: boolean) => void) {
         require("request")({
             url: this.config.api.server + "/api/" + this.config.api.version + "/" + this.config.api.operationPath,
             method: "POST",
             json: [{
-                fileUri: "",
-                content: require("js-yaml").safeDump(this.model)
+                data: this.model
             }]
         }, (error, res, body) => {
-            callback(error, body);
+            if (error) {
+                logger.error(error);
+            }
+            callback(error || body.data.error, body.data.stdout, body.data.stderr, body.data.isSatisfiable);
         });
     }
 

@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.2.0, built on: 2017-03-27
+governify-csp-tools 0.2.1, built on: 2017-03-27
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -49,11 +49,13 @@ class Problem {
             url: this.config.api.server + "/api/" + this.config.api.version + "/" + this.config.api.operationPath,
             method: "POST",
             json: [{
-                    fileUri: "",
-                    content: require("js-yaml").safeDump(this.model)
+                    data: this.model
                 }]
         }, (error, res, body) => {
-            callback(error, body);
+            if (error) {
+                logger.error(error);
+            }
+            callback(error || body.data.error, body.data.stdout, body.data.stderr, body.data.isSatisfiable);
         });
     }
 }

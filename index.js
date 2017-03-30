@@ -7,6 +7,7 @@ const CSPParameter = require('./src/model/csp/CSPParameter').default;
 const CSPRange = require('./src/model/csp/CSPRange').default;
 const CSPVar = require('./src/model/csp/CSPVar').default;
 const config = require('./src/configurations/config');
+const api = require('./src/api/api');
 
 module.exports = {
 
@@ -24,6 +25,9 @@ module.exports = {
     CSPVar: CSPVar,
 
     // CSP tools config
-    config: config
+    config: config,
+
+    // CSP API
+    api: api
 
 };
