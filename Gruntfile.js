@@ -136,25 +136,25 @@ module.exports = function (grunt) {
 
         //USE THIS TASK FOR BUILDING AND PUSHING docker images
         dockerize: {
-            'project-template-latest': {
+            'governify-csp-tools-latest': {
                 options: {
                     auth: {
                         email: "DOCKER_HUB_EMAIL", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                         username: "DOCKER_HUB_USERNAME", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                         password: "DOCKER_HUB_PASSWORD" //SET ENVIRONMENT VARIABLE WITH THIS NAME
                     },
-                    name: 'project-template',
+                    name: 'governify-csp-tools',
                     push: true
                 }
             },
-            'project-template-version': {
+            'governify-csp-tools-version': {
                 options: {
                     auth: {
                         email: "DOCKER_HUB_EMAIL", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                         username: "DOCKER_HUB_USERNAME", //SET ENVIRONMENT VARIABLE WITH THIS NAME
                         password: "DOCKER_HUB_PASSWORD" //SET ENVIRONMENT VARIABLE WITH THIS NAME
                     },
-                    name: 'project-template',
+                    name: 'governify-csp-tools',
                     tag: '<%= pkg.version %>',
                     push: true
                 }
