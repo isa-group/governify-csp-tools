@@ -198,7 +198,7 @@ module.exports = function (grunt) {
     grunt.registerTask('test', ['jshint', 'mochaTest']);
 
     //BUILD TASK
-    grunt.registerTask('build', ['test', 'usebanner', 'dockerize']);
+    grunt.registerTask('build', ['mochaTest:docker', 'usebanner', 'dockerize']);
 
     //DEVELOPMENT TASK
     grunt.registerTask('dev', ['usebanner', 'watch']);
