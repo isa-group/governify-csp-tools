@@ -1,3 +1,7 @@
+### v0.3.2 - 2017-31-4
+
+- [#9](https://github.com/isa-group/governify-csp-tools/issues/9) - Fix remote solver
+
 ### v0.3.1 - 2017-31-4
 
 - [#8](https://github.com/isa-group/governify-csp-tools/issues/8) - Avoid TLS rejection when executing reasoner in remote
