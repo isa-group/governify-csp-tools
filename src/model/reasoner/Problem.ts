@@ -22,6 +22,8 @@ import MinizincExecutor from "../../tools/MinizincExecutor";
 import CSPModel from "../csp/CSPModel";
 
 const logger = require("../../logger/logger");
+var request = require("request");
+var yaml = require("js-yaml");
 
 export default class Problem {
 
@@ -55,17 +57,17 @@ export default class Problem {
 
     private getRemoteSolution(callback: (error: any, stdout?: string, stderr?: string, isSatisfiable?: boolean) => void) {
         process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0"; // insecure
-        require("request")({
+        request({
             url: this.config.api.server + "/api/" + this.config.api.version + "/" + this.config.api.operationPath,
             method: "POST",
             json: [{
-                data: this.model
+                content: yaml.safeDump(this.model)
             }]
         }, (error, res, body) => {
             if (error) {
                 logger.error(error);
             }
-            callback(error || body.data.error, body.data.stdout, body.data.stderr, body.data.isSatisfiable);
+            callback(error || body.error, body.stdout, body.stderr, body.isSatisfiable);
         });
     }
 
