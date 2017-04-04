@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.3.0, built on: 2017-03-30
+governify-csp-tools 0.3.0, built on: 2017-04-04
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -45,6 +45,7 @@ class Problem {
         new MinizincExecutor_1.default(this, "docker").execute(callback);
     }
     getRemoteSolution(callback) {
+        process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0";
         require("request")({
             url: this.config.api.server + "/api/" + this.config.api.version + "/" + this.config.api.operationPath,
             method: "POST",
