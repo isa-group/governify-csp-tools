@@ -1,3 +1,7 @@
+### v0.3.3 - 2017-31-5
+
+- [#10](https://github.com/isa-group/governify-csp-tools/issues/10) - Add static methods to create a CSP object from a generic JavaScript object
+
 ### v0.3.2 - 2017-31-4
 
 - [#9](https://github.com/isa-group/governify-csp-tools/issues/9) - Fix remote solver
