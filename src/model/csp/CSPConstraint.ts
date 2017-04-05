@@ -28,4 +28,8 @@ export default class CSPConstraint {
         this.expression = expression;
     }
 
+    static create(obj: any): CSPConstraint {
+        return new CSPConstraint(obj.id, obj.expression);
+    }
+
 }
