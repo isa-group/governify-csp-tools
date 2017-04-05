@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.3.1, built on: 2017-04-04
+governify-csp-tools 0.3.2, built on: 2017-04-04
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -17,12 +17,23 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 "use strict";
+const CSPParameter_1 = require("./CSPParameter");
+const CSPVar_1 = require("./CSPVar");
+const CSPConstraint_1 = require("./CSPConstraint");
 class CSPModel {
     constructor() {
         this.parameters = [];
         this.variables = [];
         this.constraints = [];
         this.goal = "";
+    }
+    static create(obj) {
+        let cspModel = new CSPModel();
+        cspModel.parameters = obj.parameters.map(p => CSPParameter_1.default.create(p));
+        cspModel.variables = obj.variables.map(v => CSPVar_1.default.create(v));
+        cspModel.constraints = obj.constraints.map(c => CSPConstraint_1.default.create(c));
+        cspModel.goal = obj.goal;
+        return cspModel;
     }
     addParameter(param) {
         if (!this.existParam(param)) {

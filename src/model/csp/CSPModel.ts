@@ -44,6 +44,15 @@ export default class CSPModel implements CSPModelInterface {
         this.goal = "";
     }
 
+    static create(obj: any): CSPModel {
+        let cspModel = new CSPModel();
+        cspModel.parameters = obj.parameters.map(p => CSPParameter.create(p));
+        cspModel.variables = obj.variables.map(v => CSPVar.create(v));
+        cspModel.constraints = obj.constraints.map(c => CSPConstraint.create(c));
+        cspModel.goal = obj.goal;
+        return cspModel;
+    }
+
     addParameter(param: CSPParameter): void {
         if (!this.existParam(param)) {
             this.parameters.push(param);

@@ -36,4 +36,8 @@ export default class CSPParameter {
         }
     }
 
+    static create(obj: any): CSPParameter {
+        return new CSPParameter(obj.id, obj.type, obj.value);
+    }
+
 }

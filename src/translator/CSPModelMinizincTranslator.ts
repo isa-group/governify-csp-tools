@@ -18,6 +18,11 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 
+import CSPModel from "../model/csp/CSPModel";
+import CSPParameter from "../model/csp/CSPParameter";
+import CSPVar from "../model/csp/CSPVar";
+import CSPConstraint from "../model/csp/CSPConstraint";
+
 const mznTypeDict = require("../configurations/config").translator.typeMap;
 
 /**
@@ -25,11 +30,7 @@ const mznTypeDict = require("../configurations/config").translator.typeMap;
  */
 export default class CSPModelMinizincTranslator {
 
-    mznObject: any;
-
-    constructor(mznObject: any) {
-        this.mznObject = mznObject;
-    }
+    constructor(public mznObject: CSPModel) { }
 
     translate(): string {
 
@@ -39,19 +40,19 @@ export default class CSPModelMinizincTranslator {
         if (typeof this.mznObject === "object") {
             // Parameters
             if (this.mznObject.parameters) {
-                this.mznObject.parameters.forEach(function (parameter: any) {
+                this.mznObject.parameters.forEach(function (parameter: CSPParameter) {
                     mznData += _pthis.parameter(parameter);
                 });
             }
             // Variables
             if (this.mznObject.variables) {
-                this.mznObject.variables.sort((a, b) => a.id.localeCompare(b.id)).forEach(function (variable: any) {
+                this.mznObject.variables.sort((a, b) => a.id.localeCompare(b.id)).forEach(function (variable: CSPVar) {
                     mznData += _pthis.var(variable);
                 });
             }
             // Constraints
             if (this.mznObject.constraints) {
-                this.mznObject.constraints.forEach(function (constraint: any) {
+                this.mznObject.constraints.forEach(function (constraint: CSPConstraint) {
                     mznData += _pthis.constraint(constraint);
                 });
             }
@@ -69,7 +70,8 @@ export default class CSPModelMinizincTranslator {
     /**
      * Translate a variable object to MiniZinc "var" statement.
      */
-    private var(mznVariableObject: any): string {
+    private var(mznVariableObject: CSPVar): string {
+        mznVariableObject = CSPVar.create(mznVariableObject);
         var typeOrRange = "";
 
         if ("range" in mznVariableObject) {
@@ -88,7 +90,7 @@ export default class CSPModelMinizincTranslator {
     /**
      * Translate a constraint object to MiniZinc "constraint" statement.
      */
-    private parameter(mznParameterObject: any): string {
+    private parameter(mznParameterObject: CSPParameter): string {
         var ret = "";
         if (mznParameterObject.type === "enum") {
             ret += "set of int: " + mznParameterObject.id + "_domain = 1.." + mznParameterObject.values.length + "; % enum block start\n";
@@ -108,7 +110,7 @@ export default class CSPModelMinizincTranslator {
     /**
      * Translate a constraint object to a MiniZinc "constraint" statement.
      */
-    private constraint(mznConstraintObject: any): string {
+    private constraint(mznConstraintObject: CSPConstraint): string {
         return "constraint " + mznConstraintObject.expression.replace(/&&/g, "/\\").replace(/\|\|/g, "\\/") +
             "; % " + mznConstraintObject.id + "-constraint\n";
     }

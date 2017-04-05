@@ -27,13 +27,7 @@ var yaml = require("js-yaml");
 
 export default class Problem {
 
-    model: CSPModel;
-    config: any;
-
-    constructor(model: CSPModel, config: any) {
-        this.model = model;
-        this.config = config;
-    }
+    constructor(public model: CSPModel, public config: any) { }
 
     getSolution(callback: () => void) {
         if (this.config.type === "api") {

@@ -24,11 +24,11 @@ const typeMap = require("../../configurations/config").translator.typeMap;
 
 export default class CSPVar {
 
-    id: String;
-    type: String;
+    id: string;
+    type: string;
     range: CSPRange;
 
-    constructor(id: String, valueOrRange: any) {
+    constructor(id: string, valueOrRange: any) {
         this.id = id;
         if (typeof valueOrRange === "object") { // CSPRange
             this.range = valueOrRange;
@@ -37,6 +37,14 @@ export default class CSPVar {
             this.type = valueOrRange;
         }
 
+    }
+
+    static create(obj: any): CSPVar {
+        if (obj.range) {
+            return new CSPVar(obj.id, CSPRange.create(obj.range));
+        } else {
+            return new CSPVar(obj.id, obj.type);
+        }
     }
 
 }
