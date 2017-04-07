@@ -1,3 +1,4 @@
+"use strict";
 var Reasoner = require("../model/reasoner/Reasoner").default;
 var logger = require("../logger/logger");
 var yaml = require('js-yaml');
@@ -76,7 +77,6 @@ module.exports = {
             cert: fs.readFileSync('certs/cert.pem')
         }, app).listen(securePort, function () {
             logger.info('Your module is listening on port %d (https://localhost:%d)', securePort, securePort);
-            logger.info('Swagger-ui is available on https://localhost:%d/docs', securePort);
         });
 
         http.createServer(app).listen(port, function () {
