@@ -15,7 +15,8 @@ before_script:
   - npm install grunt-cli -g
 
 script:
-  - npm test
+  - docker run -t -v ./:/usr/src/app/governify-csp-tools isagroup/minizinc bash -c "cd /usr/src/app/governify-csp-tools && npm install && npm run localTests && npm run remoteTests"
+  - npm run dockerTests
 
 after_success:
   - REGEXP="release\s[0-9]+\.[0-9]+\.[0-9]+";
