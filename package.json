@@ -38,7 +38,10 @@
   "scripts": {
     "start": "node ./src/api/index.js",
     "prestart": "npm install",
-    "test": "grunt test"
+    "test": "grunt test",
+    "localTests": "grunt mochaTest:local",
+    "remoteTests": "grunt mochaTest:remote",
+    "dockerTests": "grunt mochaTest:docker"
   },
   "keywords": [
     "csp",
