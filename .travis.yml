@@ -15,7 +15,7 @@ before_script:
   - npm install grunt-cli -g
 
 script:
-  - docker run -t -v ./:/usr/src/app/governify-csp-tools isagroup/minizinc bash -c "cd /usr/src/app/governify-csp-tools && npm install && npm run localTests && npm run remoteTests"
+  - docker run -t isagroup/minizinc bash -c "git clone https://github.com/isa-group/governify-csp-tools.git && cd governify-csp-tools && npm install && npm run localTests && npm run remoteTests"
   - npm run dockerTests
 
 after_success:
