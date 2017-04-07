@@ -1,4 +1,9 @@
-There is not milestone for this version### v0.3.3 - 2017-31-5
+### v0.3.4 - 2017-31-5
+
+- [#12](https://github.com/isa-group/governify-csp-tools/issues/12) - Update tests for every environment
+- [#11](https://github.com/isa-group/governify-csp-tools/issues/11) - Reasoner API returns unexpected object
+
+### v0.3.3 - 2017-31-5
 
 - [#10](https://github.com/isa-group/governify-csp-tools/issues/10) - Add static methods to create a CSP object from a generic JavaScript object
 
