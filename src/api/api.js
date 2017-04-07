@@ -1,5 +1,6 @@
 var Reasoner = require("../model/reasoner/Reasoner").default;
 var logger = require("../logger/logger");
+var yaml = require('js-yaml');
 var fs = require('fs');
 var http = require('http');
 var https = require('https');
@@ -21,7 +22,7 @@ module.exports = {
         })); // support encoded bodies
 
         app.post('/reasoner/api/v1/execute', function (req, res) {
-            var data = req.body[0].data;
+            var data = yaml.safeLoad(req.body[0].content);
 
             // Configure the CSP reasoner
             var reasoner = new Reasoner({
@@ -47,12 +48,10 @@ module.exports = {
                 if (error && stderr) {
 
                     res.send({
-                        data: {
-                            error: error,
-                            stdout: stdout,
-                            stderr: stderr,
-                            isSatisfiable: isSatisfiable
-                        }
+                        error: error,
+                        stdout: stdout,
+                        stderr: stderr,
+                        isSatisfiable: isSatisfiable
                     });
 
                 } else {
@@ -60,11 +59,9 @@ module.exports = {
                     logger.info("Success execution. Sending response to user");
 
                     res.send({
-                        data: {
-                            stdout: stdout,
-                            stderr: stderr,
-                            isSatisfiable: isSatisfiable
-                        }
+                        stdout: stdout,
+                        stderr: stderr,
+                        isSatisfiable: isSatisfiable
                     });
 
                 }

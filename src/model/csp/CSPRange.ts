@@ -20,7 +20,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 export default class CSPRange {
 
-    constructor(public min: number, public max: number) { }
+    constructor(public min: string, public max: string) { }
 
     static create(obj: any): CSPRange {
         return new CSPRange(obj.min, obj.max);
