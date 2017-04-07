@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.3.2, built on: 2017-04-04
+governify-csp-tools 0.3.3, built on: 2017-04-05
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -17,6 +17,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 class CSPRange {
     constructor(min, max) {
         this.min = min;
@@ -26,5 +27,4 @@ class CSPRange {
         return new CSPRange(obj.min, obj.max);
     }
 }
-Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = CSPRange;
