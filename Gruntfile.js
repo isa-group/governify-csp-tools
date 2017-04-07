@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.3.3, built on: 2017-04-05
+governify-csp-tools 0.3.3, built on: 2017-04-07
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -92,17 +92,7 @@ module.exports = function (grunt) {
                     clearRequireCache: false, // Optionally clear the require cache before running tests (defaults to false)
                     noFail: false // Optionally set to not fail on failed tests (will still fail on other errors)
                 },
-                src: ['tests/**/*.js']
-            },
-            docker: {
-                options: {
-                    reporter: 'spec',
-                    //captureFile: 'test.results<%= grunt.template.today("yyyy-mm-dd:HH:mm:ss") %>.txt', // Optionally capture the reporter output to a file
-                    quiet: false, // Optionally suppress output to standard out (defaults to false)
-                    clearRequireCache: false, // Optionally clear the require cache before running tests (defaults to false)
-                    noFail: false // Optionally set to not fail on failed tests (will still fail on other errors)
-                },
-                src: ['tests/docker/**/*.js']
+                src: ['tests/*.js']
             }
         },
 

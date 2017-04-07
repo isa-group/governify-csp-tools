@@ -20,22 +20,22 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.*/
 
 'use strict';
 
-process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "0"; // unsecure
-
 const fs = require("fs");
 const yaml = require("js-yaml");
 const expect = require('chai').expect;
 const logger = ("../src/logger/logger");
-const Reasoner = require("../src/model/reasoner/Reasoner").default;
+const index = require("../index");
+const Reasoner = index.Reasoner;
+const api = index.api;
+const testConfig = require("./configurations/config");
 
-/*
- * USE MOCHA AND CHAI for testing your code
- */
-describe('Reasoner', function () {
+describe('Reasoner execution', function () {
 
-    this.timeout(10000);
+    this.timeout(testConfig.default.timeout);
 
-    it('local', (done) => {
+    before(api.initialize);
+
+    it('in local', (done) => {
         fs.readFile("./tests/resources/csp/csp-satisfy.yaml", "utf8", function (err, cspModel) {
 
             if (err) {
@@ -43,7 +43,7 @@ describe('Reasoner', function () {
             } else {
                 var reasoner = new Reasoner({
                     type: 'local',
-                    folder: 'test_csp_files'
+                    folder: testConfig.default.folder
                 });
                 reasoner.solve(yaml.safeLoad(cspModel), function (error, stdout, sterr, isSatisfiable) {
                     expect(isSatisfiable).to.be.equal(true);
@@ -54,7 +54,7 @@ describe('Reasoner', function () {
         });
     });
 
-    it('remote', (done) => {
+    it('in remote', (done) => {
         fs.readFile("./tests/resources/csp/csp-satisfy.yaml", "utf8", function (err, cspModel) {
 
             if (err) {
@@ -62,14 +62,33 @@ describe('Reasoner', function () {
             } else {
                 var reasoner = new Reasoner({
                     type: 'api',
-                    folder: 'test_csp_files',
+                    folder: testConfig.default.folder,
                     api: {
-                        version: 'v2',
-                        server: 'https://designer.governify.io:10044/module-minizinc',
-                        operationPath: 'models/csp/operations/execute'
+                        version: 'v1',
+                        server: 'https://localhost:10045/reasoner',
+                        operationPath: 'execute'
                     }
                 });
-                reasoner.solve(yaml.safeLoad(cspModel), function (error, stdout, sterr, isSatisfiable) {
+                reasoner.solve(yaml.safeLoad(cspModel), function (error, stdout, stderr, isSatisfiable) {
+                    expect(isSatisfiable).to.be.equal(true);
+                    done();
+                });
+            }
+
+        });
+    });
+
+    it('in docker', (done) => {
+        fs.readFile("./tests/resources/csp/csp-satisfy.yaml", "utf8", function (err, cspModel) {
+
+            if (err) {
+                return console.log(err);
+            } else {
+                var reasoner = new Reasoner({
+                    type: 'docker',
+                    folder: testConfig.default.folder
+                });
+                reasoner.solve(yaml.safeLoad(cspModel), function (error, stdout, stderr, isSatisfiable) {
                     expect(isSatisfiable).to.be.equal(true);
                     done();
                 });

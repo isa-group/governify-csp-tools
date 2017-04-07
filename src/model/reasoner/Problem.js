@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.3.3, built on: 2017-04-05
+governify-csp-tools 0.3.3, built on: 2017-04-07
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -56,6 +56,7 @@ class Problem {
                     content: yaml.safeDump(this.model)
                 }]
         }, (error, res, body) => {
+            process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = "1";
             if (error) {
                 logger.error(error);
             }
