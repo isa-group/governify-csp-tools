@@ -92,7 +92,7 @@ module.exports = function (grunt) {
                     clearRequireCache: false, // Optionally clear the require cache before running tests (defaults to false)
                     noFail: false // Optionally set to not fail on failed tests (will still fail on other errors)
                 },
-                src: ['tests/environment/docker/**/*.js']
+                src: ['tests/model/**/*.js', 'tests/environment/**/*.js']
             },
             local: {
                 options: {

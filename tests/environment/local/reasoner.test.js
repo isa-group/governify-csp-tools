@@ -33,8 +33,6 @@ describe('Reasoner execution', function () {
 
     this.timeout(testConfig.default.timeout);
 
-    before(api.initialize);
-
     it('in local', (done) => {
         fs.readFile("./tests/resources/csp/csp-satisfy.yaml", "utf8", function (err, cspModel) {
 
