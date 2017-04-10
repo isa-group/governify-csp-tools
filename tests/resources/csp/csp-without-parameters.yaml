@@ -1,0 +1,37 @@
+{
+  "variables": [
+    {
+      "id": "ImageTranslation",
+      "range": {
+        "min": "0",
+        "max": "10"
+      }
+    },
+    {
+      "id": "TranslationTime",
+      "range": {
+        "min": "0",
+        "max": "100"
+      }
+    }
+  ],
+  "constraints": [
+    {
+      "id": "Q1",
+      "expression": "((ImageTranslation == 0) -> (TranslationTime > 1))"
+    },
+    {
+      "id": "Q2",
+      "expression": "((ImageTranslation == 1) -> (TranslationTime <= 3))"
+    },
+    {
+      "id": "Q3",
+      "expression": "ImageTranslation == 0"
+    },
+    {
+      "id": "Q4",
+      "expression": "TranslationTime >= 3"
+    }
+  ],
+  "goal": "satisfy"
+}
