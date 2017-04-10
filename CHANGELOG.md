@@ -1,3 +1,7 @@
+### v0.3.5 - 2017-31-10
+
+- [#13](https://github.com/isa-group/governify-csp-tools/issues/13) - Unable to execute CSP model with no parameters declared
+
 ### v0.3.4 - 2017-31-5
 
 - [#12](https://github.com/isa-group/governify-csp-tools/issues/12) - Update tests for every environment
