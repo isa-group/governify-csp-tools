@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.3.4, built on: 2017-04-07
+governify-csp-tools 0.3.4, built on: 2017-04-10
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -45,12 +45,25 @@ export default class CSPModel implements CSPModelInterface {
     }
 
     static create(obj: any): CSPModel {
+
         let cspModel = new CSPModel();
-        cspModel.parameters = obj.parameters.map(p => CSPParameter.create(p));
-        cspModel.variables = obj.variables.map(v => CSPVar.create(v));
-        cspModel.constraints = obj.constraints.map(c => CSPConstraint.create(c));
+
+        if ("parameters" in obj && typeof obj.parameters === "object") {
+            cspModel.parameters = obj.parameters.map(p => CSPParameter.create(p));
+        }
+
+        if ("variables" in obj && typeof obj.variables === "object") {
+            cspModel.variables = obj.variables.map(v => CSPVar.create(v));
+        }
+
+        if ("constraints" in obj && typeof obj.constraints === "object") {
+            cspModel.constraints = obj.constraints.map(c => CSPConstraint.create(c));
+        }
+
         cspModel.goal = obj.goal;
+
         return cspModel;
+
     }
 
     addParameter(param: CSPParameter): void {
