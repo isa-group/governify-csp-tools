@@ -1,5 +1,5 @@
 /*!
-governify-csp-tools 0.3.3, built on: 2017-04-07
+governify-csp-tools 0.3.4, built on: 2017-04-10
 Copyright (C) 2017 ISA group
 http://www.isa.us.es/
 https://github.com/isa-group/governify-csp-tools
@@ -30,9 +30,15 @@ class CSPModel {
     }
     static create(obj) {
         let cspModel = new CSPModel();
-        cspModel.parameters = obj.parameters.map(p => CSPParameter_1.default.create(p));
-        cspModel.variables = obj.variables.map(v => CSPVar_1.default.create(v));
-        cspModel.constraints = obj.constraints.map(c => CSPConstraint_1.default.create(c));
+        if ("parameters" in obj && typeof obj.parameters === "object") {
+            cspModel.parameters = obj.parameters.map(p => CSPParameter_1.default.create(p));
+        }
+        if ("variables" in obj && typeof obj.variables === "object") {
+            cspModel.variables = obj.variables.map(v => CSPVar_1.default.create(v));
+        }
+        if ("constraints" in obj && typeof obj.constraints === "object") {
+            cspModel.constraints = obj.constraints.map(c => CSPConstraint_1.default.create(c));
+        }
         cspModel.goal = obj.goal;
         return cspModel;
     }
