@@ -74,7 +74,7 @@ class MinizincExecutor {
                     prevThis.removeFileFromPromise(goalObj);
                 }
                 if (callback) {
-                    callback(error, stdout, stderr, prevThis.isSatisfiable(error, stdout));
+                    callback(error, stdout, stderr, prevThis.isSatisfiable(error, stdout), prevThis.mznDocument);
                 }
             });
         });

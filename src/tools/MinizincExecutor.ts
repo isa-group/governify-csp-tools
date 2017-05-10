@@ -88,7 +88,7 @@ export default class MinizincExecutor {
      * Execute Minizinc files
      */
     private executeMinizincFiles(promise: typeof Promise,
-        callback: (error: any, stdout: string, stderr: string, isSatisfiable: boolean) => void, options?: {}) {
+        callback: (error: any, stdout: string, stderr: string, isSatisfiable: boolean, document: string) => void, options?: {}) {
 
         var prevThis = this;
 
@@ -109,7 +109,7 @@ export default class MinizincExecutor {
                 }
 
                 if (callback) {
-                    callback(error, stdout, stderr, prevThis.isSatisfiable(error, stdout));
+                    callback(error, stdout, stderr, prevThis.isSatisfiable(error, stdout), prevThis.mznDocument);
                 }
 
             });
