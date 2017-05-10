@@ -102,7 +102,7 @@ You need to set `"type":"api"` and define `api` object on reasoner configuration
   "folder": "csp_files",
   "api": {
     "version": "v2",
-    "server": "https://designer.governify.io:10044/module-minizinc",
+    "server": "https://minizinc.modules.designer.governify.io/module-minizinc",
     "operationPath": "models/csp/operations/execute"
   }
 }
