@@ -1,3 +1,7 @@
+### v0.3.6 - 2017-41-10
+
+- [#15](https://github.com/isa-group/governify-csp-tools/issues/15) - Return CSP document content in Reasoner callback
+
 ### v0.3.5 - 2017-31-10
 
 - [#13](https://github.com/isa-group/governify-csp-tools/issues/13) - Unable to execute CSP model with no parameters declared
