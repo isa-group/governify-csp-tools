@@ -14,7 +14,7 @@
     "js-yaml": "^3.8.1",
     "moment": "^2.17.1",
     "request": "^2.79.0",
-    "swagger-tools": "0.10.1",
+    "swagger-tools": "0.10.2",
     "tslint": "^4.4.2",
     "typescript": "^2.1.6",
     "winston": "^2.3.1"
