@@ -148,9 +148,9 @@ export default class MinizincExecutor {
             "echo \'" + goalObj.goal + ":\''" : echoTitle = "";
 
         let folderPath = prevThis.config.folder.startsWith("./") ? prevThis.config.folder : "./" + prevThis.config.folder;
-        let mzn2fznCmd = "mzn2fzn " + folderPath + "/" + goalObj.fileName + ".mzn";
-        let fznGecodeCmd = "fzn-gecode " + folderPath + "/" + goalObj.fileName + ".fzn";
-        let oznCmd = "solns2out --search-complete-msg \'\' " + folderPath + "/" + goalObj.fileName + ".ozn";
+        let mzn2fznCmd = "minizinc " + folderPath + "/" + goalObj.fileName + ".mzn";
+        //let fznGecodeCmd = "fzn-gecode " + folderPath + "/" + goalObj.fileName + ".fzn";
+        //let oznCmd = "solns2out --search-complete-msg \'\' " + folderPath + "/" + goalObj.fileName + ".ozn";
 
         let grepFilterBlankLines = " | grep -v \'^$\'";
         if (/^win/.test(process.platform)) {
@@ -158,9 +158,9 @@ export default class MinizincExecutor {
         }
 
         if (echoTitle !== "") {
-            bashCmd += echoTitle + " && " + mzn2fznCmd + " && " + fznGecodeCmd + " | " + oznCmd + grepFilterBlankLines;
+            bashCmd += echoTitle + " && " + mzn2fznCmd + grepFilterBlankLines;
         } else {
-            bashCmd += mzn2fznCmd + " && " + fznGecodeCmd + " | " + oznCmd + grepFilterBlankLines;
+            bashCmd += mzn2fznCmd + grepFilterBlankLines;
         }
 
         return bashCmd;
