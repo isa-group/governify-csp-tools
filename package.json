@@ -14,10 +14,11 @@
     "js-yaml": "^3.8.1",
     "moment": "^2.17.1",
     "request": "^2.79.0",
-    "swagger-tools": "0.10.1",
+    "swagger-tools": "0.10.2",
     "tslint": "^4.4.2",
     "typescript": "^2.1.6",
-    "winston": "^2.3.1"
+    "winston": "^2.3.1",
+    "snyk": "^1.120.1"
   },
   "devDependencies": {
     "chai": "^3.5.0",
@@ -41,7 +42,9 @@
     "test": "grunt test",
     "localTests": "grunt mochaTest:local",
     "remoteTests": "grunt mochaTest:remote",
-    "dockerTests": "grunt mochaTest:docker"
+    "dockerTests": "grunt mochaTest:docker",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "keywords": [
     "csp",
@@ -59,5 +62,6 @@
   },
   "docker": {
     "url": "<docker-hub-image-url>"
-  }
+  },
+  "snyk": true
 }
